@@ -1,0 +1,16 @@
+{
+  "name": "backend-ticketshow",
+  "version": "1.0.0",
+  "description": "Backend da Aplicação Web",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luan",
+  "license": "ISC",
+  "dependencies": {
+    "mysql2": "^3.11.0"
+  }
+}
