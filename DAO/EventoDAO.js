@@ -124,15 +124,27 @@ export default class EventoDAO {
         }
     }
     
-    async consultar(parametro) {
+    async consultar(parametro = null) {
         try {
             const conexao = await Conectar();
-            const sql = `SELECT * FROM Evento WHERE nome LIKE ?;`;
-            const valores = [`%${parametro}%`];
-
+            let sql, valores;
+    
+            if (parametro) {
+                if (typeof parametro === 'number') {
+                    sql = `SELECT * FROM Evento WHERE id = ?;`;
+                    valores = [parametro];
+                } else {
+                    sql = `SELECT * FROM Evento WHERE nome LIKE ?;`;
+                    valores = [`%${parametro}%`];
+                }
+            } else {
+                sql = `SELECT * FROM Evento;`;
+                valores = [];
+            }
+    
             const [resultados] = await conexao.execute(sql, valores);
             await global.poolConexoes.releaseConnection(conexao);
-
+    
             const eventos = resultados.map(row => {
                 const evento = new Evento(
                     row.nome,
@@ -149,10 +161,11 @@ export default class EventoDAO {
                 evento.id = row.id;
                 return evento;
             });
-
-            return eventos;
+    
+            return eventos.length === 1 && parametro ? eventos[0] : eventos;
         } catch (erro) {
             console.error("Erro ao consultar o evento:", erro);
+            throw erro;
         }
     }
 }

@@ -156,6 +156,21 @@ export default class Evento {
             `Descrição: ${this.#descricao}`;
     }
 
+    toJSON() {
+        return {
+            nome: this.#nome,
+            endereco: this.#endereco,
+            cidade: this.#cidade,
+            estado: this.#estado,
+            nomePromoter: this.#nomePromoter,
+            data: this.#data,
+            dataFim: this.#dataFim,
+            horario: this.#horario,
+            descricao: this.#descricao,
+            capacidade: this.#capacidade
+        }
+    }
+
     async gravar() {
         const eventDAO = new EventoDAO();
         const id = await eventDAO.gravar(this);
