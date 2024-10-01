@@ -158,6 +158,7 @@ export default class Evento {
 
     toJSON() {
         return {
+            id: this.#id,
             nome: this.#nome,
             endereco: this.#endereco,
             cidade: this.#cidade,
